@@ -12,6 +12,15 @@ export interface Candle {
 
 export interface StoreSnapshot {
   symbol: string
-  data: Record<string, number | null>
+  data: Record<string, Record<string, number | null>>
   updated_at: string
+}
+
+export interface Indicator {
+  id: number
+  symbol: string
+  timeframe: string
+  timestamp: string
+  name: string
+  value: number
 }
