@@ -43,3 +43,58 @@ export interface AgentInsight {
   created_at: string
   expires_at: string
 }
+
+export interface Strategy {
+  id: number
+  name: string
+  symbols: string
+  enabled: boolean
+  schedule_interval: number
+  event_triggers: string | null
+  pipeline_config: Record<string, unknown>
+  created_at: string
+  updated_at: string
+}
+
+export interface StrategyRun {
+  id: number
+  strategy_id: number
+  symbol: string
+  stages: Record<string, unknown>
+  decision: string
+  trade_id: number | null
+  created_at: string
+}
+
+export interface Trade {
+  id: number
+  strategy_id: number | null
+  symbol: string
+  direction: string
+  entry_price: number | null
+  exit_price: number | null
+  stop_loss: number | null
+  take_profit: number | null
+  quantity: number | null
+  status: string
+  pnl: number | null
+  reasoning: Record<string, unknown> | null
+  opened_at: string | null
+  closed_at: string | null
+  created_at: string
+}
+
+export interface Position {
+  id: number
+  trade_id: number
+  symbol: string
+  direction: string
+  entry_price: number
+  current_price: number | null
+  stop_loss: number | null
+  take_profit: number | null
+  quantity: number
+  unrealized_pnl: number | null
+  status: string
+  opened_at: string
+}
