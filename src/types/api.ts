@@ -24,3 +24,22 @@ export interface Indicator {
   name: string
   value: number
 }
+
+export interface AgentDef {
+  name: string
+  insight_type: string
+  interval_seconds: number
+  tier: number
+}
+
+export interface AgentInsight {
+  id: number
+  agent_name: string
+  symbol: string
+  timeframe: string | null
+  insight_type: string
+  data: Record<string, unknown>
+  confidence: number | null
+  created_at: string
+  expires_at: string
+}
