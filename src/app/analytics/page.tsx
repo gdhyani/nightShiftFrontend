@@ -5,12 +5,12 @@ export default function AnalyticsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold">Analytics</h1>
-        <p className="text-zinc-500 mt-1">Performance metrics and equity curve</p>
+        <h1 className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>Analytics</h1>
+        <p className="mt-1" style={{ color: 'var(--text-secondary)' }}>Performance metrics and equity curve</p>
       </div>
       <PerformanceGrid />
       <div>
-        <h2 className="text-sm font-medium text-zinc-400 mb-3">Equity Curve</h2>
+        <h2 className="text-sm font-medium mb-3" style={{ color: 'var(--text-secondary)' }}>Equity Curve</h2>
         <EquityCurve />
       </div>
     </div>

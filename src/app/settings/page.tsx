@@ -4,7 +4,13 @@ import { useAccount } from '@/hooks/useAccount'
 
 function StatusDot({ connected }: { connected: boolean }) {
   return (
-    <span className={`inline-block w-2 h-2 rounded-full ${connected ? 'bg-green-400' : 'bg-zinc-600'}`} />
+    <span
+      className="inline-block w-2 h-2 rounded-full"
+      style={{
+        background: connected ? 'var(--accent-emerald)' : 'var(--text-muted)',
+        boxShadow: connected ? '0 0 8px var(--accent-emerald-glow)' : 'none',
+      }}
+    />
   )
 }
 
@@ -21,22 +27,22 @@ export default function SettingsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold">Settings</h1>
-        <p className="text-zinc-500 mt-1">Connections, account configuration, and system info</p>
+        <h1 className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>Settings</h1>
+        <p className="mt-1" style={{ color: 'var(--text-secondary)' }}>Connections, account configuration, and system info</p>
       </div>
 
       <div>
-        <h2 className="text-sm font-medium text-zinc-400 mb-3">Connections</h2>
+        <h2 className="text-sm font-medium mb-3" style={{ color: 'var(--text-secondary)' }}>Connections</h2>
         <div className="grid grid-cols-2 gap-3">
           {connections.map((c) => (
-            <div key={c.name} className="bg-zinc-900 rounded-lg p-4 flex items-center justify-between">
+            <div key={c.name} className="rounded-2xl p-4 flex items-center justify-between" style={{ background: 'var(--void-surface)', border: '1px solid var(--void-border-subtle)' }}>
               <div>
-                <div className="text-sm font-medium">{c.name}</div>
-                <div className="text-xs text-zinc-500">{c.description}</div>
+                <div className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>{c.name}</div>
+                <div className="text-xs" style={{ color: 'var(--text-muted)' }}>{c.description}</div>
               </div>
               <div className="flex items-center gap-2">
                 <StatusDot connected={c.connected} />
-                <span className={`text-xs ${c.connected ? 'text-green-400' : 'text-zinc-500'}`}>
+                <span className="text-xs" style={{ color: c.connected ? 'var(--accent-emerald)' : 'var(--text-secondary)' }}>
                   {c.connected ? 'Connected' : 'Disconnected'}
                 </span>
               </div>
@@ -46,11 +52,11 @@ export default function SettingsPage() {
       </div>
 
       <div>
-        <h2 className="text-sm font-medium text-zinc-400 mb-3">Account Settings</h2>
+        <h2 className="text-sm font-medium mb-3" style={{ color: 'var(--text-secondary)' }}>Account Settings</h2>
         {isLoading || !account ? (
-          <div className="text-zinc-500">Loading account...</div>
+          <div style={{ color: 'var(--text-secondary)' }}>Loading account...</div>
         ) : (
-          <div className="bg-zinc-900 rounded-lg p-5 space-y-3">
+          <div className="rounded-2xl p-5 space-y-3" style={{ background: 'var(--void-surface)', border: '1px solid var(--void-border-subtle)' }}>
             {[
               { label: 'Balance', value: `$${account.balance.toFixed(2)}` },
               { label: 'Risk per Trade', value: `${account.risk_per_trade}%` },
@@ -60,8 +66,8 @@ export default function SettingsPage() {
               { label: 'Last Updated', value: new Date(account.updated_at).toLocaleString() },
             ].map((s) => (
               <div key={s.label} className="flex items-center justify-between py-1">
-                <span className="text-sm text-zinc-500">{s.label}</span>
-                <span className="text-sm font-medium">{s.value}</span>
+                <span className="text-sm" style={{ color: 'var(--text-muted)' }}>{s.label}</span>
+                <span className="text-sm font-medium font-[family-name:var(--font-mono)]" style={{ color: 'var(--text-primary)' }}>{s.value}</span>
               </div>
             ))}
           </div>
@@ -69,19 +75,19 @@ export default function SettingsPage() {
       </div>
 
       <div>
-        <h2 className="text-sm font-medium text-zinc-400 mb-3">About</h2>
-        <div className="bg-zinc-900 rounded-lg p-5 space-y-2">
+        <h2 className="text-sm font-medium mb-3" style={{ color: 'var(--text-secondary)' }}>About</h2>
+        <div className="rounded-2xl p-5 space-y-2" style={{ background: 'var(--void-surface)', border: '1px solid var(--void-border-subtle)' }}>
           <div className="flex items-center justify-between">
-            <span className="text-sm text-zinc-500">Version</span>
-            <span className="text-sm font-mono">0.1.0</span>
+            <span className="text-sm" style={{ color: 'var(--text-muted)' }}>Version</span>
+            <span className="text-sm font-[family-name:var(--font-mono)]" style={{ color: 'var(--text-primary)' }}>0.1.0</span>
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-sm text-zinc-500">Platform</span>
-            <span className="text-sm">NightShift AI Trading</span>
+            <span className="text-sm" style={{ color: 'var(--text-muted)' }}>Platform</span>
+            <span className="text-sm" style={{ color: 'var(--text-primary)' }}>NightShift AI Trading</span>
           </div>
           <div className="flex items-center justify-between">
-            <span className="text-sm text-zinc-500">Architecture</span>
-            <span className="text-sm">Multi-Agent (AgentScope)</span>
+            <span className="text-sm" style={{ color: 'var(--text-muted)' }}>Architecture</span>
+            <span className="text-sm" style={{ color: 'var(--text-primary)' }}>Multi-Agent (AgentScope)</span>
           </div>
         </div>
       </div>

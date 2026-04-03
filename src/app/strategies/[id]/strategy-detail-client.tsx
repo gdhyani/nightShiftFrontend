@@ -1,5 +1,6 @@
 'use client'
 
+import { motion } from 'framer-motion'
 import { useStrategy, useStrategyRuns, useToggleStrategy } from '@/hooks/useStrategies'
 import { useTrades } from '@/hooks/useTrades'
 
@@ -11,66 +12,91 @@ export function StrategyDetailClient({ strategyId }: Props) {
   const { data: trades } = useTrades({ strategy_id: strategyId })
   const toggleMutation = useToggleStrategy()
 
-  if (!strategy) return <div className="text-zinc-500">Loading...</div>
+  if (!strategy) return <div style={{ color: 'var(--text-secondary)' }}>Loading...</div>
 
   return (
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">{strategy.name}</h1>
-          <p className="text-zinc-500 mt-1">{strategy.symbols.replace(/,/g, ' · ')}</p>
+          <h1 className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{strategy.name}</h1>
+          <p className="mt-1" style={{ color: 'var(--text-secondary)' }}>{strategy.symbols.replace(/,/g, ' · ')}</p>
         </div>
-        <button
+        <motion.button
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
           onClick={() => toggleMutation.mutate({ id: strategy.id, enabled: !strategy.enabled })}
-          className={`px-4 py-2 rounded-lg text-sm font-medium ${
-            strategy.enabled ? 'bg-red-900 text-red-300 hover:bg-red-800' : 'bg-green-900 text-green-300 hover:bg-green-800'
-          }`}
-        >{strategy.enabled ? 'Disable' : 'Enable'}</button>
+          className="px-4 py-2 rounded-lg text-sm font-medium"
+          style={{
+            background: strategy.enabled ? 'rgba(244, 63, 94, 0.15)' : 'rgba(16, 185, 129, 0.15)',
+            color: strategy.enabled ? 'var(--accent-rose)' : 'var(--accent-emerald)',
+            border: '1px solid',
+            borderColor: strategy.enabled ? 'var(--accent-rose)' : 'var(--accent-emerald)',
+          }}
+        >{strategy.enabled ? 'Disable' : 'Enable'}</motion.button>
       </div>
 
       <div>
-        <h2 className="text-sm font-medium text-zinc-400 mb-3">Recent Runs</h2>
+        <h2 className="text-sm font-medium mb-3" style={{ color: 'var(--text-secondary)' }}>Recent Runs</h2>
         {runs?.length ? (
           <div className="space-y-2">
-            {runs.slice(0, 10).map((run) => (
-              <div key={run.id} className="bg-zinc-900 rounded-lg p-3 flex items-center justify-between">
+            {runs.slice(0, 10).map((run, i) => (
+              <motion.div
+                key={run.id}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: i * 0.03 }}
+                className="rounded-2xl p-3 flex items-center justify-between"
+                style={{ background: 'var(--void-surface)', border: '1px solid var(--void-border-subtle)' }}
+              >
                 <div>
-                  <span className="text-sm font-medium">{run.symbol}</span>
-                  <span className="text-xs text-zinc-500 ml-2">{new Date(run.created_at).toLocaleString()}</span>
+                  <span className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>{run.symbol}</span>
+                  <span className="text-xs ml-2" style={{ color: 'var(--text-muted)' }}>{new Date(run.created_at).toLocaleString()}</span>
                 </div>
-                <span className={`text-xs px-2 py-0.5 rounded ${
-                  run.decision === 'EXECUTE' ? 'bg-green-900 text-green-300' :
-                  run.decision === 'WAIT' ? 'bg-yellow-900 text-yellow-300' : 'bg-zinc-800 text-zinc-500'
-                }`}>{run.decision}</span>
-              </div>
+                <span className="text-xs px-2 py-0.5 rounded-lg" style={{
+                  background: run.decision === 'EXECUTE' ? 'rgba(16, 185, 129, 0.15)' :
+                    run.decision === 'WAIT' ? 'rgba(245, 158, 11, 0.15)' : 'var(--void-elevated)',
+                  color: run.decision === 'EXECUTE' ? 'var(--accent-emerald)' :
+                    run.decision === 'WAIT' ? 'var(--accent-amber)' : 'var(--text-muted)',
+                }}>{run.decision}</span>
+              </motion.div>
             ))}
           </div>
-        ) : <div className="text-zinc-500 text-sm">No runs yet</div>}
+        ) : <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>No runs yet</div>}
       </div>
 
       <div>
-        <h2 className="text-sm font-medium text-zinc-400 mb-3">Trades</h2>
+        <h2 className="text-sm font-medium mb-3" style={{ color: 'var(--text-secondary)' }}>Trades</h2>
         {trades?.length ? (
           <div className="space-y-2">
-            {trades.map((trade) => (
-              <div key={trade.id} className="bg-zinc-900 rounded-lg p-3 flex items-center justify-between">
+            {trades.map((trade, i) => (
+              <motion.div
+                key={trade.id}
+                initial={{ opacity: 0, x: -10 }}
+                animate={{ opacity: 1, x: 0 }}
+                transition={{ delay: i * 0.03 }}
+                className="rounded-2xl p-3 flex items-center justify-between"
+                style={{ background: 'var(--void-surface)', border: '1px solid var(--void-border-subtle)' }}
+              >
                 <div className="flex items-center gap-3">
-                  <span className={`text-xs font-bold ${trade.direction === 'BUY' ? 'text-green-400' : 'text-red-400'}`}>{trade.direction}</span>
-                  <span className="text-sm">{trade.symbol}</span>
-                  <span className="text-xs text-zinc-500">@ {trade.entry_price?.toFixed(5)}</span>
+                  <span className="text-xs font-bold" style={{ color: trade.direction === 'BUY' ? 'var(--accent-emerald)' : 'var(--accent-rose)' }}>{trade.direction}</span>
+                  <span className="text-sm" style={{ color: 'var(--text-primary)' }}>{trade.symbol}</span>
+                  <span className="text-xs" style={{ color: 'var(--text-muted)' }}>@ {trade.entry_price?.toFixed(5)}</span>
                 </div>
                 <div className="flex items-center gap-3">
                   {trade.pnl != null && (
-                    <span className={`text-sm font-mono ${trade.pnl >= 0 ? 'text-green-400' : 'text-red-400'}`}>
+                    <span className="text-sm font-[family-name:var(--font-mono)]" style={{ color: trade.pnl >= 0 ? 'var(--accent-emerald)' : 'var(--accent-rose)' }}>
                       {trade.pnl >= 0 ? '+' : ''}{trade.pnl.toFixed(5)}
                     </span>
                   )}
-                  <span className={`text-xs px-2 py-0.5 rounded ${trade.status === 'open' ? 'bg-blue-900 text-blue-300' : 'bg-zinc-800 text-zinc-500'}`}>{trade.status}</span>
+                  <span className="text-xs px-2 py-0.5 rounded-lg" style={{
+                    background: trade.status === 'open' ? 'rgba(6, 182, 212, 0.15)' : 'var(--void-elevated)',
+                    color: trade.status === 'open' ? 'var(--accent-cyan)' : 'var(--text-muted)',
+                  }}>{trade.status}</span>
                 </div>
-              </div>
+              </motion.div>
             ))}
           </div>
-        ) : <div className="text-zinc-500 text-sm">No trades yet</div>}
+        ) : <div className="text-sm" style={{ color: 'var(--text-secondary)' }}>No trades yet</div>}
       </div>
     </div>
   )

@@ -9,11 +9,16 @@ function SkillCard({ path, name, description }: { path: string; name: string; de
   const { data: content, isLoading } = useSkillContent(expanded ? path : '')
 
   return (
-    <div className="bg-zinc-900 rounded-lg p-4">
+    <motion.div
+      layout
+      whileHover={{ scale: 1.01 }}
+      className="rounded-2xl p-4"
+      style={{ background: 'var(--void-surface)', border: '1px solid var(--void-border-subtle)' }}
+    >
       <button onClick={() => setExpanded(!expanded)} className="w-full text-left">
-        <div className="text-sm font-medium">{name}</div>
-        <div className="text-xs text-zinc-500 mt-1">{description}</div>
-        <div className="text-xs text-zinc-600 mt-1 font-mono">{path}</div>
+        <div className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>{name}</div>
+        <div className="text-xs mt-1" style={{ color: 'var(--text-secondary)' }}>{description}</div>
+        <div className="text-xs mt-1 font-[family-name:var(--font-mono)]" style={{ color: 'var(--text-muted)' }}>{path}</div>
       </button>
       <AnimatePresence>
         {expanded && (
@@ -23,17 +28,17 @@ function SkillCard({ path, name, description }: { path: string; name: string; de
             exit={{ height: 0, opacity: 0 }}
             className="overflow-hidden"
           >
-            <div className="mt-3 pt-3 border-t border-zinc-800">
+            <div className="mt-3 pt-3" style={{ borderTop: '1px solid var(--void-border)' }}>
               {isLoading ? (
-                <div className="text-zinc-500 text-xs">Loading...</div>
+                <div className="text-xs" style={{ color: 'var(--text-secondary)' }}>Loading...</div>
               ) : (
-                <pre className="text-xs text-zinc-300 overflow-auto max-h-64 whitespace-pre-wrap">{content?.content}</pre>
+                <pre className="text-xs overflow-auto max-h-64 whitespace-pre-wrap" style={{ color: 'var(--text-primary)' }}>{content?.content}</pre>
               )}
             </div>
           </motion.div>
         )}
       </AnimatePresence>
-    </div>
+    </motion.div>
   )
 }
 
@@ -50,18 +55,18 @@ export default function SkillsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold">Skills Manager</h1>
-        <p className="text-zinc-500 mt-1">Browse agent skills and their definitions</p>
+        <h1 className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>Skills Manager</h1>
+        <p className="mt-1" style={{ color: 'var(--text-secondary)' }}>Browse agent skills and their definitions</p>
       </div>
 
       {isLoading ? (
-        <div className="text-zinc-500">Loading skills...</div>
+        <div style={{ color: 'var(--text-secondary)' }}>Loading skills...</div>
       ) : !skills?.length ? (
-        <div className="text-zinc-500">No skills registered yet.</div>
+        <div style={{ color: 'var(--text-secondary)' }}>No skills registered yet.</div>
       ) : (
         Object.entries(grouped).map(([category, catSkills]) => (
           <div key={category}>
-            <h2 className="text-sm font-medium text-zinc-400 mb-3 capitalize">{category}</h2>
+            <h2 className="text-sm font-medium mb-3 capitalize" style={{ color: 'var(--text-secondary)' }}>{category}</h2>
             <div className="grid grid-cols-2 gap-3">
               {catSkills!.map((s) => (
                 <SkillCard key={s.path} path={s.path} name={s.name} description={s.description} />

@@ -19,13 +19,18 @@ export default function AgentInsightsPage() {
     <div className="space-y-6">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">Agent Insights</h1>
-          <p className="text-zinc-500 mt-1">Live Tier 1 & 2 agent outputs</p>
+          <h1 className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>Agent Insights</h1>
+          <p className="mt-1" style={{ color: 'var(--text-secondary)' }}>Live Tier 1 &amp; 2 agent outputs</p>
         </div>
         <select
           value={selectedSymbol}
           onChange={(e) => setSelectedSymbol(e.target.value)}
-          className="bg-zinc-900 border border-zinc-700 rounded px-3 py-1.5 text-sm text-white"
+          className="rounded-lg px-3 py-1.5 text-sm"
+          style={{
+            background: 'var(--void-surface)',
+            border: '1px solid var(--void-border)',
+            color: 'var(--text-primary)',
+          }}
         >
           {SYMBOLS.map((s) => (
             <option key={s} value={s}>{s.replace('_', '/')}</option>
@@ -36,7 +41,7 @@ export default function AgentInsightsPage() {
       {agents && (
         <>
           <div>
-            <h2 className="text-sm font-medium text-zinc-400 mb-3">Tier 1 — Data Agents</h2>
+            <h2 className="text-sm font-medium mb-3" style={{ color: 'var(--text-secondary)' }}>Tier 1 — Data Agents</h2>
             <div className="grid grid-cols-2 gap-3">
               {agents.filter((a) => a.tier === 1).map((agent) => (
                 <AgentCard key={agent.name} agent={agent} latestInsight={getLatestInsight(agent.name)} />
@@ -44,7 +49,7 @@ export default function AgentInsightsPage() {
             </div>
           </div>
           <div>
-            <h2 className="text-sm font-medium text-zinc-400 mb-3">Tier 2 — Analysis Agents</h2>
+            <h2 className="text-sm font-medium mb-3" style={{ color: 'var(--text-secondary)' }}>Tier 2 — Analysis Agents</h2>
             <div className="grid grid-cols-2 gap-3">
               {agents.filter((a) => a.tier === 2).map((agent) => (
                 <AgentCard key={agent.name} agent={agent} latestInsight={getLatestInsight(agent.name)} />

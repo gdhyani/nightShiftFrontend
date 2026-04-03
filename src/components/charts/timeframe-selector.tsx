@@ -1,6 +1,7 @@
 'use client'
 
 import { useAtom } from 'jotai'
+import { motion } from 'framer-motion'
 import { activeTimeframeAtom } from '@/stores/app'
 
 const TIMEFRAMES = [
@@ -18,17 +19,21 @@ export function TimeframeSelector() {
   return (
     <div className="flex gap-1">
       {TIMEFRAMES.map((tf) => (
-        <button
+        <motion.button
           key={tf.value}
+          whileHover={{ scale: 1.05 }}
+          whileTap={{ scale: 0.95 }}
           onClick={() => setActiveTimeframe(tf.value)}
-          className={`px-3 py-1.5 rounded text-xs font-medium transition-colors ${
-            activeTimeframe === tf.value
-              ? 'bg-zinc-700 text-white'
-              : 'text-zinc-400 hover:text-white hover:bg-zinc-800'
-          }`}
+          className="px-3 py-1.5 rounded-lg text-xs font-medium transition-colors"
+          style={{
+            background: activeTimeframe === tf.value ? 'var(--void-elevated)' : 'transparent',
+            color: activeTimeframe === tf.value ? 'var(--accent-cyan)' : 'var(--text-secondary)',
+            border: '1px solid',
+            borderColor: activeTimeframe === tf.value ? 'var(--accent-cyan)' : 'var(--void-border)',
+          }}
         >
           {tf.label}
-        </button>
+        </motion.button>
       ))}
     </div>
   )

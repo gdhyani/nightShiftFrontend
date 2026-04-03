@@ -12,10 +12,18 @@ export function FlowPageClient({ strategyId }: Props) {
     <div className="space-y-4">
       <div className="flex items-center justify-between">
         <div>
-          <h1 className="text-2xl font-bold">{strategy?.name ?? 'Strategy'} — Pipeline Flow</h1>
-          <p className="text-zinc-500 text-sm mt-1">Live visualization of the agent decision pipeline</p>
+          <h1 className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>{strategy?.name ?? 'Strategy'} — Pipeline Flow</h1>
+          <p className="text-sm mt-1" style={{ color: 'var(--text-secondary)' }}>Live visualization of the agent decision pipeline</p>
         </div>
-        <Link href={`/strategies/${strategyId}`} className="text-sm text-zinc-400 hover:text-white">← Back to Strategy</Link>
+        <Link
+          href={`/strategies/${strategyId}`}
+          className="text-sm transition-colors"
+          style={{ color: 'var(--text-secondary)' }}
+          onMouseEnter={(e) => e.currentTarget.style.color = 'var(--text-primary)'}
+          onMouseLeave={(e) => e.currentTarget.style.color = 'var(--text-secondary)'}
+        >
+          ← Back to Strategy
+        </Link>
       </div>
       <PipelineFlow strategyId={strategyId} />
     </div>
