@@ -73,6 +73,7 @@ export function CandlestickChart({ symbol, timeframe, height = 500 }: Props) {
       low: c.low,
       close: c.close,
     }))
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     seriesRef.current.setData(chartData as any)
     chartRef.current?.timeScale().fitContent()
   }, [candles])
