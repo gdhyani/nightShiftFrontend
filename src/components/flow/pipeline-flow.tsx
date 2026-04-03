@@ -12,19 +12,22 @@ function buildFlowFromRun(run: Record<string, unknown> | null): { nodes: Node[];
     return {
       nodes: [
         { id: 'analyst', type: 'agent', position: { x: 250, y: 50 }, data: { label: 'Analyst', type: 'tier3', status: 'idle' } },
-        { id: 'evaluator', type: 'agent', position: { x: 250, y: 200 }, data: { label: 'Evaluator', type: 'tier3', status: 'idle' } },
+        { id: 'evaluator', type: 'agent', position: { x: 250, y: 250 }, data: { label: 'Evaluator', type: 'tier3', status: 'idle' } },
       ],
-      edges: [{ id: 'e-analyst-evaluator', source: 'analyst', target: 'evaluator', animated: true, style: { stroke: '#71717a' } }],
+      edges: [{ id: 'e-analyst-evaluator', source: 'analyst', target: 'evaluator', animated: true, style: { stroke: '#1a1a2e', strokeWidth: 2 } }],
     }
   }
   const stagesData = (run.stages as Record<string, unknown>)?.stages as Array<{ agent: string; output: Record<string, unknown> }> || []
   const nodes: Node[] = stagesData.map((stage, i) => ({
-    id: stage.agent, type: 'agent', position: { x: 250, y: 50 + i * 150 },
+    id: stage.agent, type: 'agent', position: { x: 250, y: 50 + i * 200 },
     data: { label: stage.agent.replace(/_/g, ' '), type: 'tier3', status: 'done' as const, output: stage.output },
   }))
   const edges: Edge[] = []
   for (let i = 0; i < nodes.length - 1; i++) {
-    edges.push({ id: `e-${nodes[i].id}-${nodes[i + 1].id}`, source: nodes[i].id, target: nodes[i + 1].id, animated: true, style: { stroke: '#22c55e' } })
+    edges.push({
+      id: `e-${nodes[i].id}-${nodes[i + 1].id}`, source: nodes[i].id, target: nodes[i + 1].id,
+      animated: true, style: { stroke: '#10b981', strokeWidth: 2 },
+    })
   }
   return { nodes, edges }
 }
@@ -37,10 +40,17 @@ export function PipelineFlow({ strategyId }: Props) {
   const { nodes, edges } = buildFlowFromRun(latestRun as unknown as Record<string, unknown>)
 
   return (
-    <div className="h-[500px] bg-zinc-950 rounded-lg border border-zinc-800">
-      <ReactFlow nodes={nodes} edges={edges} nodeTypes={nodeTypes} fitView proOptions={{ hideAttribution: true }}>
-        <Background color="#27272a" gap={20} />
-        <Controls style={{ backgroundColor: '#18181b', borderColor: '#3f3f46' }} />
+    <div className="h-[600px] rounded-2xl overflow-hidden" style={{ background: 'var(--void)', border: '1px solid var(--void-border)' }}>
+      <ReactFlow
+        nodes={nodes}
+        edges={edges}
+        nodeTypes={nodeTypes}
+        fitView
+        proOptions={{ hideAttribution: true }}
+        style={{ background: 'transparent' }}
+      >
+        <Background color="#12121f" gap={24} size={1} />
+        <Controls style={{ background: 'var(--void-surface)', borderColor: 'var(--void-border)', borderRadius: '12px' }} />
       </ReactFlow>
     </div>
   )
