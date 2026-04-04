@@ -46,7 +46,6 @@ function filterStrategies(strategies: Strategy[], filter: string) {
 function StrategyCard({ strategy, index }: { strategy: Strategy; index: number }) {
   const toggle = useToggleStrategy()
   const active = strategy.enabled
-  const symbolCount = strategy.symbols.split(',').length
   const agentStages = (strategy.pipeline_config?.stages as Array<Record<string, string>>) ?? []
 
   return (
