@@ -19,20 +19,17 @@ function WatchlistRow({ symbol }: { symbol: string }) {
   return (
     <Link
       href={`/chart/${symbol}`}
-      className="grid grid-cols-5 gap-4 items-center px-4 py-3 rounded-2xl transition-colors"
-      style={{ color: 'var(--text-primary)' }}
-      onMouseEnter={(e) => e.currentTarget.style.background = 'var(--void-surface)'}
-      onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
+      className="grid grid-cols-5 gap-4 items-center px-4 py-3 text-on-surface hover:bg-surface-container-low transition-all"
     >
-      <div className="font-medium">{symbol.includes('|') ? symbol.split('|').pop() : symbol.replace('_', '/')}</div>
+      <div className="font-headline font-semibold">{symbol.includes('|') ? symbol.split('|').pop() : symbol.replace('_', '/')}</div>
       <div><PriceCell price={price} /></div>
-      <div className="text-sm font-[family-name:var(--font-mono)]" style={{ color: 'var(--text-secondary)' }}>
+      <div className="text-sm font-mono tabular-nums text-on-surface-variant">
         {h1Data.rsi_14 != null ? Number(h1Data.rsi_14).toFixed(1) : '—'}
       </div>
-      <div className="text-sm font-[family-name:var(--font-mono)]" style={{ color: 'var(--text-secondary)' }}>
+      <div className="text-sm font-mono tabular-nums text-on-surface-variant">
         {h1Data.sma_20 != null ? Number(h1Data.sma_20).toFixed(2) : '—'}
       </div>
-      <div className="text-sm font-[family-name:var(--font-mono)]" style={{ color: 'var(--text-secondary)' }}>
+      <div className="text-sm font-mono tabular-nums text-on-surface-variant">
         {h1Data.atr_14 != null ? Number(h1Data.atr_14).toFixed(2) : '—'}
       </div>
     </Link>
@@ -41,15 +38,15 @@ function WatchlistRow({ symbol }: { symbol: string }) {
 
 export function WatchlistTable() {
   return (
-    <div>
-      <div className="grid grid-cols-5 gap-4 px-4 py-2 text-xs uppercase tracking-wider" style={{ color: 'var(--text-muted)' }}>
+    <div className="bg-surface-container-lowest rounded-xl overflow-hidden">
+      <div className="grid grid-cols-5 gap-4 px-4 py-2 text-on-surface-variant text-[11px] uppercase tracking-wider">
         <div>Symbol</div>
         <div>Price</div>
         <div>RSI (14)</div>
         <div>SMA (20)</div>
         <div>ATR (14)</div>
       </div>
-      <div className="space-y-1">
+      <div className="divide-y divide-outline-variant/5">
         {SYMBOLS.map((symbol) => (
           <WatchlistRow key={symbol} symbol={symbol} />
         ))}

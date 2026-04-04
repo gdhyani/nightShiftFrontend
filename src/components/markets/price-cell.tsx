@@ -26,7 +26,7 @@ function usePriceDirection(price: number | null) {
 export function PriceCell({ price }: Props) {
   const direction = usePriceDirection(price)
 
-  if (price == null) return <span style={{ color: 'var(--text-muted)' }}>—</span>
+  if (price == null) return <span className="text-on-surface-variant">—</span>
 
   return (
     <motion.span
@@ -35,14 +35,19 @@ export function PriceCell({ price }: Props) {
         direction
           ? {
               backgroundColor:
-                direction === 'up' ? 'var(--accent-emerald-glow)' : 'rgba(244, 63, 94, 0.15)',
+                direction === 'up' ? 'rgba(0, 255, 65, 0.15)' : 'rgba(255, 180, 171, 0.15)',
             }
           : {}
       }
       animate={{ backgroundColor: 'rgba(0,0,0,0)' }}
       transition={{ duration: 1 }}
-      className="font-[family-name:var(--font-mono)] text-sm px-1 rounded"
-      style={{ color: 'var(--text-primary)' }}
+      className={`font-mono tabular-nums text-sm px-1 rounded ${
+        direction === 'up'
+          ? 'text-primary-container'
+          : direction === 'down'
+            ? 'text-error'
+            : 'text-on-surface'
+      }`}
     >
       {price.toFixed(5)}
     </motion.span>

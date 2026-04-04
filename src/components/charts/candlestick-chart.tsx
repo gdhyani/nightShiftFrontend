@@ -21,30 +21,30 @@ export function CandlestickChart({ symbol, timeframe, height = 500 }: Props) {
 
     const chart = createChart(containerRef.current, {
       layout: {
-        background: { type: ColorType.Solid, color: '#09090b' },
-        textColor: '#a1a1aa',
+        background: { type: ColorType.Solid, color: '#131314' },
+        textColor: '#b9ccb2',
       },
       grid: {
-        vertLines: { color: '#27272a' },
-        horzLines: { color: '#27272a' },
+        vertLines: { color: '#1c1b1c' },
+        horzLines: { color: '#1c1b1c' },
       },
       crosshair: {
-        vertLine: { color: '#71717a', labelBackgroundColor: '#27272a' },
-        horzLine: { color: '#71717a', labelBackgroundColor: '#27272a' },
+        vertLine: { color: '#71717a', labelBackgroundColor: '#2a2a2b' },
+        horzLine: { color: '#71717a', labelBackgroundColor: '#2a2a2b' },
       },
       width: containerRef.current.clientWidth,
       height,
-      timeScale: { borderColor: '#27272a', timeVisible: true },
-      rightPriceScale: { borderColor: '#27272a' },
+      timeScale: { borderColor: '#1c1b1c', timeVisible: true },
+      rightPriceScale: { borderColor: '#1c1b1c' },
     })
 
     const series = chart.addSeries(CandlestickSeries, {
-      upColor: '#22c55e',
-      downColor: '#ef4444',
-      borderDownColor: '#ef4444',
-      borderUpColor: '#22c55e',
-      wickDownColor: '#ef4444',
-      wickUpColor: '#22c55e',
+      upColor: '#00ff41',
+      downColor: '#ff4444',
+      borderDownColor: '#ff4444',
+      borderUpColor: '#00ff41',
+      wickDownColor: '#ff4444',
+      wickUpColor: '#00ff41',
     })
 
     chartRef.current = chart
@@ -80,11 +80,11 @@ export function CandlestickChart({ symbol, timeframe, height = 500 }: Props) {
 
   if (isLoading) {
     return (
-      <div className="flex items-center justify-center bg-zinc-950 rounded-lg" style={{ height }}>
-        <span className="text-zinc-500">Loading chart...</span>
+      <div className="flex items-center justify-center bg-surface-container-lowest rounded-xl" style={{ height }}>
+        <span className="text-on-surface-variant">Loading chart...</span>
       </div>
     )
   }
 
-  return <div ref={containerRef} className="w-full rounded-lg overflow-hidden" />
+  return <div ref={containerRef} className="w-full rounded-xl overflow-hidden" />
 }
