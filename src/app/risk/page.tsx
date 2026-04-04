@@ -10,14 +10,14 @@ export default function RiskPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>Portfolio &amp; Risk</h1>
-        <p className="mt-1" style={{ color: 'var(--text-secondary)' }}>Account margins, holdings, and open positions</p>
+        <h1 className="font-headline font-bold text-3xl uppercase tracking-tight text-on-surface">Portfolio &amp; Risk</h1>
+        <p className="mt-1 text-on-surface-variant text-sm">Account margins, holdings, and open positions</p>
       </div>
 
       <div>
-        <h2 className="text-sm font-medium mb-3" style={{ color: 'var(--text-secondary)' }}>Margins</h2>
+        <h2 className="text-on-surface-variant text-[11px] uppercase tracking-wider font-mono mb-3">Margins</h2>
         {isLoading || !margins ? (
-          <div style={{ color: 'var(--text-muted)' }}>Loading margins...</div>
+          <div className="text-on-surface-variant text-sm">Loading margins...</div>
         ) : (
           <div className="grid grid-cols-4 gap-3">
             {[
@@ -26,9 +26,9 @@ export default function RiskPage() {
               { label: 'Margin Used', value: `₹${margins.margin_used.toFixed(2)}` },
               { label: 'Available', value: `₹${margins.available.toFixed(2)}` },
             ].map((s) => (
-              <div key={s.label} className="rounded-2xl p-4" style={{ background: 'var(--void-surface)', border: '1px solid var(--void-border)' }}>
-                <div className="text-xs" style={{ color: 'var(--text-muted)' }}>{s.label}</div>
-                <div className="text-lg font-bold font-[family-name:var(--font-mono)] mt-1" style={{ color: 'var(--accent-cyan)' }}>{s.value}</div>
+              <div key={s.label} className="bg-surface-container-lowest rounded-xl p-5">
+                <div className="text-on-surface-variant text-[10px] uppercase tracking-[0.2em] font-mono">{s.label}</div>
+                <div className="font-headline font-bold text-2xl tabular-nums text-secondary mt-1">{s.value}</div>
               </div>
             ))}
           </div>
@@ -36,12 +36,12 @@ export default function RiskPage() {
       </div>
 
       <div>
-        <h2 className="text-sm font-medium mb-3" style={{ color: 'var(--text-secondary)' }}>Holdings</h2>
+        <h2 className="text-on-surface-variant text-[11px] uppercase tracking-wider font-mono mb-3">Holdings</h2>
         <HoldingsTable />
       </div>
 
       <div>
-        <h2 className="text-sm font-medium mb-3" style={{ color: 'var(--text-secondary)' }}>Open Positions</h2>
+        <h2 className="text-on-surface-variant text-[11px] uppercase tracking-wider font-mono mb-3">Open Positions</h2>
         <PositionsTable />
       </div>
     </div>
