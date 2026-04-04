@@ -1,7 +1,10 @@
 'use client'
 
 import { motion, AnimatePresence } from 'framer-motion'
-import { useState } from 'react'
+import { useState, type ReactNode } from 'react'
+import {
+  Newspaper, Droplets, Clock, Network, Ruler, TrendingUp, Waves, GitBranch, Bot, MoreVertical,
+} from 'lucide-react'
 import type { AgentDef, AgentInsight } from '@/types/api'
 
 interface Props {
@@ -9,15 +12,15 @@ interface Props {
   latestInsight: AgentInsight | null
 }
 
-const AGENT_ICONS: Record<string, string> = {
-  news_agent: 'newspaper',
-  order_flow_agent: 'water_drop',
-  session_agent: 'schedule',
-  correlation_agent: 'hub',
-  range_agent: 'straighten',
-  bias_agent: 'trending_up',
-  liquidity_agent: 'waves',
-  structure_agent: 'account_tree',
+const AGENT_ICONS: Record<string, ReactNode> = {
+  news_agent: <Newspaper size={24} />,
+  order_flow_agent: <Droplets size={24} />,
+  session_agent: <Clock size={24} />,
+  correlation_agent: <Network size={24} />,
+  range_agent: <Ruler size={24} />,
+  bias_agent: <TrendingUp size={24} />,
+  liquidity_agent: <Waves size={24} />,
+  structure_agent: <GitBranch size={24} />,
 }
 
 const AGENT_DESCRIPTIONS: Record<string, string> = {
@@ -77,9 +80,7 @@ export function AgentCard({ agent, latestInsight }: Props) {
         <div
           className={`p-2 rounded-lg ${isTier1 ? 'bg-primary/10 text-primary' : 'bg-secondary/10 text-secondary'}`}
         >
-          <span className="material-symbols-outlined">
-            {AGENT_ICONS[agent.name] ?? 'smart_toy'}
-          </span>
+          {AGENT_ICONS[agent.name] ?? <Bot size={24} />}
         </div>
         <div className="flex items-center gap-2">
           <span
@@ -91,7 +92,7 @@ export function AgentCard({ agent, latestInsight }: Props) {
             className="text-on-surface-variant hover:text-white"
             onClick={(e) => e.stopPropagation()}
           >
-            <span className="material-symbols-outlined text-lg">more_vert</span>
+            <MoreVertical size={18} />
           </button>
         </div>
       </div>

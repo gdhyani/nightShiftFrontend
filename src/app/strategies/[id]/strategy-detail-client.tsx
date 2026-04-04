@@ -1,17 +1,22 @@
 'use client'
 
+import { type ReactNode } from 'react'
 import { motion } from 'framer-motion'
 import Link from 'next/link'
+import {
+  Radio, Bot, Brain, Filter, Rocket,
+  ArrowLeft, GitBranch, StopCircle, Play, Terminal, ArrowLeftRight,
+} from 'lucide-react'
 import { useStrategy, useStrategyRuns, useToggleStrategy } from '@/hooks/useStrategies'
 import { useTrades } from '@/hooks/useTrades'
 
 /* ── pipeline node definitions ─────────────────────────────────────── */
-const PIPELINE_NODES = [
-  { label: 'Data Stream', icon: 'sensors', color: 'text-primary', bg: 'bg-primary/20' },
-  { label: 'Analyst', icon: 'smart_toy', color: 'text-tertiary-fixed-dim', bg: 'bg-tertiary-fixed-dim/20' },
-  { label: 'Evaluator', icon: 'psychology', color: 'text-secondary', bg: 'bg-secondary/20' },
-  { label: 'Guardrail', icon: 'filter_alt', color: 'text-error', bg: 'bg-error/20' },
-  { label: 'Execution', icon: 'rocket_launch', color: 'text-primary-container', bg: 'bg-primary-container/20' },
+const PIPELINE_NODES: { label: string; icon: ReactNode; color: string; bg: string }[] = [
+  { label: 'Data Stream', icon: <Radio size={16} />, color: 'text-primary', bg: 'bg-primary/20' },
+  { label: 'Analyst', icon: <Bot size={16} />, color: 'text-tertiary-fixed-dim', bg: 'bg-tertiary-fixed-dim/20' },
+  { label: 'Evaluator', icon: <Brain size={16} />, color: 'text-secondary', bg: 'bg-secondary/20' },
+  { label: 'Guardrail', icon: <Filter size={16} />, color: 'text-error', bg: 'bg-error/20' },
+  { label: 'Execution', icon: <Rocket size={16} />, color: 'text-primary-container', bg: 'bg-primary-container/20' },
 ]
 
 interface Props { strategyId: number }
@@ -50,7 +55,7 @@ export function StrategyDetailClient({ strategyId }: Props) {
                 href="/strategies"
                 className="text-on-surface-variant hover:text-on-surface transition-colors"
               >
-                <span className="material-symbols-outlined text-lg">arrow_back</span>
+                <ArrowLeft size={18} />
               </Link>
               {strategy.enabled ? (
                 <span className="flex items-center gap-1.5 text-[10px] font-mono uppercase tracking-widest text-primary-container">
@@ -90,7 +95,7 @@ export function StrategyDetailClient({ strategyId }: Props) {
               href={`/strategies/${strategy.id}/flow`}
               className="px-4 py-2.5 rounded-lg text-xs font-bold bg-surface-container-highest text-on-surface-variant hover:text-on-surface transition-colors flex items-center gap-2"
             >
-              <span className="material-symbols-outlined text-sm">account_tree</span>
+              <GitBranch size={14} />
               Flow
             </Link>
             <motion.button
@@ -103,9 +108,7 @@ export function StrategyDetailClient({ strategyId }: Props) {
                   : 'bg-primary-container text-on-primary'
               }`}
             >
-              <span className="material-symbols-outlined text-base">
-                {strategy.enabled ? 'stop_circle' : 'play_arrow'}
-              </span>
+              {strategy.enabled ? <StopCircle size={16} /> : <Play size={16} />}
               {strategy.enabled ? 'Stop Strategy' : 'Start Strategy'}
             </motion.button>
           </div>
@@ -145,7 +148,7 @@ export function StrategyDetailClient({ strategyId }: Props) {
       {/* ── Inline Pipeline Flow ─────────────────────────────────── */}
       <div className="bg-surface-container-low rounded-xl border border-outline-variant/10 p-6 overflow-x-auto">
         <div className="flex items-center gap-2 mb-5">
-          <span className="material-symbols-outlined text-secondary text-lg">account_tree</span>
+          <GitBranch size={18} className="text-secondary" />
           <h2 className="font-headline text-sm font-bold tracking-tight uppercase">Decision Pipeline</h2>
           <div className="ml-auto flex items-center gap-2 px-2 py-1 bg-surface-container-highest rounded text-[10px] font-mono text-on-surface-variant">
             <span className={`w-1.5 h-1.5 rounded-full ${strategy.enabled ? 'bg-primary animate-pulse' : 'bg-on-surface-variant'}`} />
@@ -162,7 +165,7 @@ export function StrategyDetailClient({ strategyId }: Props) {
                 className="flex items-center gap-2.5 bg-surface-container-highest border border-outline-variant/20 rounded-lg px-4 py-3 min-w-[140px]"
               >
                 <div className={`w-7 h-7 rounded ${node.bg} flex items-center justify-center`}>
-                  <span className={`material-symbols-outlined text-base ${node.color}`}>{node.icon}</span>
+                  <span className={node.color}>{node.icon}</span>
                 </div>
                 <div>
                   <div className="text-xs font-semibold text-on-surface">{node.label}</div>
@@ -200,7 +203,7 @@ export function StrategyDetailClient({ strategyId }: Props) {
         <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/10 flex flex-col">
           <div className="flex items-center justify-between px-5 py-3 border-b border-outline-variant/10">
             <div className="flex items-center gap-2">
-              <span className="material-symbols-outlined text-on-surface-variant text-base">terminal</span>
+              <Terminal size={16} className="text-on-surface-variant" />
               <h2 className="text-[11px] uppercase tracking-wider font-bold text-on-surface-variant">Runtime Logs</h2>
             </div>
             <span className="text-[10px] font-mono text-outline">{runs?.length ?? 0} entries</span>
@@ -245,7 +248,7 @@ export function StrategyDetailClient({ strategyId }: Props) {
         <div className="bg-surface-container-lowest rounded-xl border border-outline-variant/10 flex flex-col">
           <div className="flex items-center justify-between px-5 py-3 border-b border-outline-variant/10">
             <div className="flex items-center gap-2">
-              <span className="material-symbols-outlined text-on-surface-variant text-base">swap_horiz</span>
+              <ArrowLeftRight size={16} className="text-on-surface-variant" />
               <h2 className="text-[11px] uppercase tracking-wider font-bold text-on-surface-variant">Trades</h2>
             </div>
             <Link

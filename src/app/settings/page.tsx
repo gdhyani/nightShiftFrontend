@@ -1,6 +1,9 @@
 'use client'
 
 import { useState } from 'react'
+import {
+  Shield, AlertTriangle, Lock, RefreshCw, Webhook, ShieldCheck, Copy,
+} from 'lucide-react'
 import { useTradingConfig, useSwitchMode, useRequestDailyToken } from '@/hooks/useTradingConfig'
 import { useAccount } from '@/hooks/useAccount'
 
@@ -62,9 +65,7 @@ export default function SettingsPage() {
           <div className="bg-surface-container-low p-6 rounded-xl border border-outline-variant/10 flex items-center justify-between">
             <div className="flex items-center gap-4">
               <div className={`w-12 h-12 rounded-full flex items-center justify-center ${isLive ? 'bg-error-container/20' : 'bg-surface-container-highest'}`}>
-                <span className={`material-symbols-outlined ${isLive ? 'text-error' : 'text-on-surface-variant'}`}>
-                  {isLive ? 'warning' : 'shield'}
-                </span>
+                {isLive ? <AlertTriangle size={24} className="text-error" /> : <Shield size={24} className="text-on-surface-variant" />}
               </div>
               <div>
                 <h3 className="text-lg font-bold font-headline">Real Account Mode</h3>
@@ -102,7 +103,7 @@ export default function SettingsPage() {
           {confirmLive && (
             <div className="bg-error/5 border border-error/40 rounded-xl p-5 space-y-3">
               <div className="flex items-center gap-3">
-                <span className="material-symbols-outlined text-error">warning</span>
+                <AlertTriangle size={20} className="text-error" />
                 <span className="text-sm font-bold text-error">Switch to live trading?</span>
               </div>
               <p className="text-xs text-on-surface-variant">
@@ -137,7 +138,7 @@ export default function SettingsPage() {
                 </h3>
                 <p className="text-sm text-on-surface-variant">Secure tunnel for algorithmic order routing.</p>
               </div>
-              <span className="material-symbols-outlined text-on-surface-variant/30 text-4xl">vpn_lock</span>
+              <Lock size={36} className="text-on-surface-variant/30" />
             </div>
             <div className="p-8 space-y-6">
               {isLoading ? (
@@ -182,7 +183,7 @@ export default function SettingsPage() {
                       disabled={requestToken.isPending}
                       className="w-full bg-primary text-on-primary py-4 rounded-xl font-bold text-sm tracking-widest hover:brightness-110 active:scale-[0.98] transition-all flex items-center justify-center gap-2 disabled:opacity-40 disabled:cursor-not-allowed"
                     >
-                      <span className="material-symbols-outlined text-lg">sync</span>
+                      <RefreshCw size={18} />
                       {requestToken.isPending ? 'REQUESTING TOKEN...' : 'REQUEST DAILY TOKEN'}
                     </button>
                     {requestToken.isSuccess && (
@@ -202,30 +203,26 @@ export default function SettingsPage() {
             {/* WebSocket Listener */}
             <div className="bg-surface-container-lowest p-6 rounded-xl space-y-4 border border-outline-variant/10">
               <div className="flex justify-between items-start">
-                <span className="material-symbols-outlined text-secondary">webhook</span>
+                <Webhook size={24} className="text-secondary" />
                 <span className="text-[10px] font-mono text-on-surface-variant">WS_LIVE</span>
               </div>
               <h4 className="font-bold">WebSocket Listener</h4>
               <div className="bg-surface-container p-3 rounded-lg flex items-center justify-between">
                 <code className="text-xs text-secondary-fixed-dim font-mono truncate">ws://localhost:8000/ws</code>
-                <span className="material-symbols-outlined text-sm cursor-pointer text-on-surface-variant hover:text-primary shrink-0 ml-2">
-                  content_copy
-                </span>
+                <Copy size={14} className="cursor-pointer text-on-surface-variant hover:text-primary shrink-0 ml-2" />
               </div>
             </div>
 
             {/* API Access */}
             <div className="bg-surface-container-lowest p-6 rounded-xl space-y-4 border border-outline-variant/10">
               <div className="flex justify-between items-start">
-                <span className="material-symbols-outlined text-tertiary-container">security</span>
+                <ShieldCheck size={24} className="text-tertiary-container" />
                 <span className="text-[10px] font-mono text-primary-container">ACTIVE</span>
               </div>
               <h4 className="font-bold">API Access</h4>
               <div className="bg-surface-container p-3 rounded-lg flex items-center justify-between">
                 <code className="text-xs text-secondary-fixed-dim font-mono truncate">http://localhost:8000/api</code>
-                <span className="material-symbols-outlined text-sm cursor-pointer text-on-surface-variant hover:text-primary shrink-0 ml-2">
-                  content_copy
-                </span>
+                <Copy size={14} className="cursor-pointer text-on-surface-variant hover:text-primary shrink-0 ml-2" />
               </div>
             </div>
           </div>

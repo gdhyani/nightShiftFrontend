@@ -1,6 +1,7 @@
 'use client'
 
 import { useState, useMemo } from 'react'
+import { Terminal, Cpu, Scale } from 'lucide-react'
 import { useAgents, useAgentInsights } from '@/hooks/useAgentInsights'
 import { AgentCard } from '@/components/agents/agent-card'
 
@@ -158,7 +159,7 @@ export default function AgentInsightsPage() {
         <div className="lg:col-span-2 bg-surface-container-lowest rounded-xl flex flex-col h-[500px] border border-outline-variant/10 overflow-hidden">
           <div className="p-4 bg-surface-container flex items-center justify-between">
             <div className="flex items-center gap-3">
-              <span className="material-symbols-outlined text-primary">terminal</span>
+              <Terminal size={20} className="text-primary" />
               <span className="font-headline font-bold uppercase tracking-widest text-sm">
                 Agent Logic Stream
               </span>
@@ -226,7 +227,7 @@ export default function AgentInsightsPage() {
             <div className="w-32 h-32 rounded-full bg-primary/10 flex items-center justify-center mb-6 relative">
               <div className="absolute inset-0 rounded-full animate-ping bg-primary/5" />
               <div className="w-24 h-24 rounded-full bg-primary/20 border-4 border-primary/40 shadow-[0_0_40px_rgba(0,255,65,0.2)] flex items-center justify-center">
-                <span className="material-symbols-outlined text-primary text-4xl">memory</span>
+                <Cpu size={36} className="text-primary" />
               </div>
             </div>
             <h4 className="font-headline font-bold text-xl mb-1 uppercase tracking-tighter text-primary">
@@ -260,7 +261,7 @@ export default function AgentInsightsPage() {
           {/* Governance Policy Card */}
           <div className="bg-surface-container-highest p-6 rounded-xl border border-outline-variant/20 flex flex-col justify-between items-start">
             <div className="flex items-center gap-2 mb-4">
-              <span className="material-symbols-outlined text-error text-sm">gavel</span>
+              <Scale size={14} className="text-error" />
               <span className="text-[10px] font-bold text-on-surface uppercase">
                 Governance Policy
               </span>
