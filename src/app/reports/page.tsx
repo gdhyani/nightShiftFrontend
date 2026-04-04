@@ -9,14 +9,14 @@ export default function ReportsPage() {
   return (
     <div className="space-y-6">
       <div>
-        <h1 className="text-2xl font-bold" style={{ color: 'var(--text-primary)' }}>Daily Review</h1>
-        <p className="mt-1" style={{ color: 'var(--text-secondary)' }}>Daily trading reports and performance summaries</p>
+        <h1 className="font-headline font-bold text-3xl uppercase tracking-tight text-on-surface">Daily Review</h1>
+        <p className="text-on-surface-variant font-light mt-1">Daily trading reports and performance summaries</p>
       </div>
 
       {isLoading ? (
-        <div style={{ color: 'var(--text-secondary)' }}>Loading reports...</div>
+        <div className="text-on-surface-variant text-center py-12">Loading reports...</div>
       ) : !reports?.length ? (
-        <div style={{ color: 'var(--text-secondary)' }}>No reports yet. Reports are generated at the end of each trading day.</div>
+        <div className="text-on-surface-variant text-center py-12">No reports yet. Reports are generated at the end of each trading day.</div>
       ) : (
         <div className="space-y-4">
           {reports.map((r, i) => (
@@ -25,22 +25,23 @@ export default function ReportsPage() {
               initial={{ opacity: 0, y: 10 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ delay: i * 0.05 }}
-              className="rounded-2xl p-5"
-              style={{ background: 'var(--void-surface)', border: '1px solid var(--void-border-subtle)' }}
+              className="bg-surface-container-lowest rounded-xl p-5 border border-outline-variant/10"
             >
               <div className="flex items-center justify-between mb-3">
-                <div className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>{new Date(r.date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}</div>
-                <div className="text-sm font-[family-name:var(--font-mono)] font-bold" style={{ color: r.total_pnl >= 0 ? 'var(--accent-emerald)' : 'var(--accent-rose)' }}>
+                <div className="font-headline text-lg font-semibold text-on-surface">
+                  {new Date(r.date).toLocaleDateString('en-US', { weekday: 'long', year: 'numeric', month: 'long', day: 'numeric' })}
+                </div>
+                <div className={`font-mono tabular-nums font-bold text-sm ${r.total_pnl >= 0 ? 'text-primary-container' : 'text-error'}`}>
                   {r.total_pnl >= 0 ? '+' : ''}{r.total_pnl.toFixed(5)}
                 </div>
               </div>
-              <div className="flex gap-4 mb-3">
-                <div className="text-xs" style={{ color: 'var(--text-muted)' }}>Trades: <span style={{ color: 'var(--text-primary)' }}>{r.trades_count}</span></div>
-                <div className="text-xs" style={{ color: 'var(--text-muted)' }}>Wins: <span style={{ color: 'var(--accent-emerald)' }}>{r.wins}</span></div>
-                <div className="text-xs" style={{ color: 'var(--text-muted)' }}>Losses: <span style={{ color: 'var(--accent-rose)' }}>{r.losses}</span></div>
+              <div className="flex gap-4 mb-3 text-on-surface-variant text-sm">
+                <div>Trades: <span className="text-on-surface">{r.trades_count}</span></div>
+                <div>Wins: <span className="text-primary-container">{r.wins}</span></div>
+                <div>Losses: <span className="text-error">{r.losses}</span></div>
               </div>
               {r.summary && (
-                <p className="text-sm leading-relaxed" style={{ color: 'var(--text-secondary)' }}>{r.summary}</p>
+                <p className="text-on-surface-variant text-sm leading-relaxed">{r.summary}</p>
               )}
             </motion.div>
           ))}
