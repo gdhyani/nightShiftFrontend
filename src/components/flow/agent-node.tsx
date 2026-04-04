@@ -16,45 +16,50 @@ export function AgentNode({ data }: NodeProps) {
   const isDone = nodeData.status === 'done'
   const isRunning = nodeData.status === 'running'
 
-  const borderColor = isRunning ? 'var(--accent-amber)' : isDone ? 'var(--accent-emerald)' : 'var(--void-border)'
-  const glowColor = isRunning ? 'var(--accent-amber-glow)' : isDone ? 'var(--accent-emerald-glow)' : 'transparent'
+  const activeClass = isRunning
+    ? 'border-amber-400/60 shadow-[0_0_16px_rgba(251,191,36,0.4)]'
+    : isDone
+      ? 'border-primary-container/40 shadow-[0_0_10px_rgba(0,255,65,0.4)]'
+      : 'border-outline-variant/20'
 
   return (
     <motion.div
       initial={{ scale: 0.9, opacity: 0 }}
       animate={{ scale: 1, opacity: 1 }}
-      className="relative min-w-[200px] rounded-2xl p-4"
-      style={{
-        background: 'var(--void-surface)',
-        border: `1.5px solid ${borderColor}`,
-        boxShadow: `0 0 24px ${glowColor}, 0 4px 24px rgba(0,0,0,0.4)`,
-      }}
+      className={`relative min-w-[200px] bg-surface-container-high border rounded-xl p-4 ${activeClass}`}
     >
-      <Handle type="target" position={Position.Top} style={{ background: 'var(--void-border)', width: 8, height: 8, border: 'none' }} />
+      <Handle type="target" position={Position.Top} className="!bg-outline-variant/40 !w-2 !h-2 !border-none" />
 
       <div className="flex items-center gap-2 mb-2">
-        <div className="w-2 h-2 rounded-full" style={{
-          background: isDone ? 'var(--accent-emerald)' : isRunning ? 'var(--accent-amber)' : 'var(--text-muted)',
-          boxShadow: isDone ? '0 0 8px var(--accent-emerald-glow)' : isRunning ? '0 0 8px var(--accent-amber-glow)' : 'none',
-        }} />
-        <span className="text-[10px] uppercase tracking-widest font-[family-name:var(--font-mono)]" style={{ color: 'var(--text-muted)' }}>
+        <div className={`w-2 h-2 rounded-full ${
+          isDone
+            ? 'bg-primary-container shadow-[0_0_8px_rgba(0,255,65,0.5)]'
+            : isRunning
+              ? 'bg-amber-400 shadow-[0_0_8px_rgba(251,191,36,0.5)]'
+              : 'bg-on-surface-variant/40'
+        }`} />
+        <span className="text-[10px] uppercase tracking-widest font-mono text-on-surface-variant">
           {nodeData.type}
         </span>
       </div>
 
-      <div className="text-sm font-semibold capitalize" style={{ color: 'var(--text-primary)' }}>
+      <div className="font-headline font-semibold text-sm text-on-surface capitalize">
         {nodeData.label}
       </div>
 
       {nodeData.output && (
-        <div className="mt-2 text-[11px] font-[family-name:var(--font-mono)] leading-relaxed overflow-hidden max-h-16" style={{ color: 'var(--text-secondary)' }}>
+        <div className="mt-2 text-[11px] font-mono leading-relaxed overflow-hidden max-h-16 text-on-surface-variant">
           {(() => {
             const decision = (nodeData.output as Record<string, unknown>).decision
             if (decision) {
               return (
-                <span style={{
-                  color: decision === 'EXECUTE' ? 'var(--accent-emerald)' : decision === 'WAIT' ? 'var(--accent-amber)' : 'var(--text-muted)',
-                }}>
+                <span className={
+                  decision === 'EXECUTE'
+                    ? 'text-primary-container'
+                    : decision === 'WAIT'
+                      ? 'text-amber-400'
+                      : 'text-on-surface-variant/60'
+                }>
                   Decision: {String(decision)}
                 </span>
               )
@@ -64,7 +69,7 @@ export function AgentNode({ data }: NodeProps) {
         </div>
       )}
 
-      <Handle type="source" position={Position.Bottom} style={{ background: 'var(--void-border)', width: 8, height: 8, border: 'none' }} />
+      <Handle type="source" position={Position.Bottom} className="!bg-outline-variant/40 !w-2 !h-2 !border-none" />
     </motion.div>
   )
 }

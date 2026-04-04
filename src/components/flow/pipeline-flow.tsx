@@ -14,7 +14,7 @@ function buildFlowFromRun(run: Record<string, unknown> | null): { nodes: Node[];
         { id: 'analyst', type: 'agent', position: { x: 250, y: 50 }, data: { label: 'Analyst', type: 'tier3', status: 'idle' } },
         { id: 'evaluator', type: 'agent', position: { x: 250, y: 250 }, data: { label: 'Evaluator', type: 'tier3', status: 'idle' } },
       ],
-      edges: [{ id: 'e-analyst-evaluator', source: 'analyst', target: 'evaluator', animated: true, style: { stroke: '#1a1a2e', strokeWidth: 2 } }],
+      edges: [{ id: 'e-analyst-evaluator', source: 'analyst', target: 'evaluator', animated: true, style: { stroke: '#00ff41', strokeWidth: 2, strokeDasharray: '5 5' } }],
     }
   }
   const stagesData = (run.stages as Record<string, unknown>)?.stages as Array<{ agent: string; output: Record<string, unknown> }> || []
@@ -26,7 +26,7 @@ function buildFlowFromRun(run: Record<string, unknown> | null): { nodes: Node[];
   for (let i = 0; i < nodes.length - 1; i++) {
     edges.push({
       id: `e-${nodes[i].id}-${nodes[i + 1].id}`, source: nodes[i].id, target: nodes[i + 1].id,
-      animated: true, style: { stroke: '#10b981', strokeWidth: 2 },
+      animated: true, style: { stroke: '#00ff41', strokeWidth: 2, strokeDasharray: '5 5' },
     })
   }
   return { nodes, edges }
@@ -40,17 +40,17 @@ export function PipelineFlow({ strategyId }: Props) {
   const { nodes, edges } = buildFlowFromRun(latestRun as unknown as Record<string, unknown>)
 
   return (
-    <div className="h-[600px] rounded-2xl overflow-hidden" style={{ background: 'var(--void)', border: '1px solid var(--void-border)' }}>
+    <div className="h-[600px] rounded-2xl overflow-hidden bg-background border border-outline-variant/10">
       <ReactFlow
         nodes={nodes}
         edges={edges}
         nodeTypes={nodeTypes}
         fitView
         proOptions={{ hideAttribution: true }}
-        style={{ background: 'transparent' }}
+        style={{ background: '#131314' }}
       >
-        <Background color="#12121f" gap={24} size={1} />
-        <Controls style={{ background: 'var(--void-surface)', borderColor: 'var(--void-border)', borderRadius: '12px' }} />
+        <Background color="#2a2a2b" gap={24} size={1} />
+        <Controls className="!bg-surface-container-high !border-outline-variant/20 !rounded-xl [&>button]:!bg-surface-container-high [&>button]:!border-outline-variant/10 [&>button]:!text-on-surface-variant [&>button:hover]:!bg-surface-container-highest" />
       </ReactFlow>
     </div>
   )
