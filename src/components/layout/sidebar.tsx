@@ -1,120 +1,131 @@
 'use client'
 
-import { useAtom, useAtomValue } from 'jotai'
+import { useAtomValue } from 'jotai'
 import Link from 'next/link'
 import { usePathname } from 'next/navigation'
-import { motion } from 'framer-motion'
+import {
+  LayoutDashboard,
+  TrendingUp,
+  Database,
+  Bot,
+  Workflow,
+  ArrowLeftRight,
+  BarChart3,
+  Shield,
+  Settings,
+  Sparkles,
+  FileText,
+  HelpCircle,
+  Terminal,
+} from 'lucide-react'
 
-import { sidebarOpenAtom, wsStatusAtom } from '@/stores/app'
+import { wsStatusAtom } from '@/stores/app'
 
-const navItems = [
-  { href: '/', label: 'Dashboard', icon: '\u2B21' },
-  { href: '/markets', label: 'Markets', icon: '\u25CE' },
-  { href: '/strategies', label: 'Strategies', icon: '\u2B22' },
-  { href: '/trades', label: 'Trades', icon: '\u21C5' },
-  { href: '/analytics', label: 'Analytics', icon: '\u25C8' },
-  { href: '/risk', label: 'Risk', icon: '\u2298' },
-  { href: '/agents', label: 'Agents', icon: '\u25C9' },
-  { href: '/skills', label: 'Skills', icon: '\u2756' },
-  { href: '/reports', label: 'Reports', icon: '\u2630' },
-  { href: '/settings', label: 'Settings', icon: '\u2699' },
+const mainNavItems = [
+  { href: '/', label: 'Dashboard', icon: LayoutDashboard },
+  { href: '/markets', label: 'Markets', icon: TrendingUp },
+  { href: '/data-store', label: 'Data Store', icon: Database },
+  { href: '/agents', label: 'Agents', icon: Bot },
+  { href: '/strategies', label: 'Strategies', icon: Workflow },
+  { href: '/trades', label: 'Trades', icon: ArrowLeftRight },
+  { href: '/analytics', label: 'Analytics', icon: BarChart3 },
+  { href: '/risk', label: 'Risk', icon: Shield },
+  { href: '/settings', label: 'Settings', icon: Settings },
+]
+
+const bottomNavItems = [
+  { href: '/skills', label: 'Skills', icon: Sparkles },
+  { href: '/reports', label: 'Reports', icon: FileText },
 ]
 
 export function Sidebar() {
-  const [isOpen] = useAtom(sidebarOpenAtom)
   const wsStatus = useAtomValue(wsStatusAtom)
   const pathname = usePathname()
 
+  const isActive = (href: string) =>
+    pathname === href || (href !== '/' && pathname.startsWith(href))
+
   return (
-    <motion.aside
-      initial={false}
-      animate={{ width: isOpen ? 240 : 68 }}
-      transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-      className="fixed left-0 top-0 h-screen z-40 flex flex-col"
-      style={{
-        background: 'linear-gradient(180deg, #0a0a14 0%, #060609 100%)',
-        borderRight: '1px solid rgba(26, 26, 46, 0.8)',
-      }}
-    >
+    <aside className="bg-surface-container-low text-on-surface font-body text-sm font-medium flex flex-col h-screen fixed left-0 top-0 py-6 px-4 w-64 z-50 border-r border-outline-variant/10">
       {/* Brand */}
-      <div className="h-16 flex items-center px-5 gap-3">
-        <div className="w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold"
-          style={{
-            background: 'linear-gradient(135deg, #10b981, #06b6d4)',
-            boxShadow: '0 0 20px rgba(16, 185, 129, 0.3)',
-          }}
-        >
+      <div className="mb-10 px-2 flex items-center gap-3">
+        <div className="w-8 h-8 rounded-lg bg-primary-container flex items-center justify-center text-on-primary font-bold text-sm">
           N
         </div>
-        {isOpen && (
-          <motion.span
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="text-base font-semibold tracking-tight"
-            style={{ color: 'var(--text-primary)' }}
-          >
+        <div>
+          <h1 className="text-primary font-headline font-bold text-lg leading-none">
             NightShift
-          </motion.span>
-        )}
+          </h1>
+          <span className="text-[10px] uppercase tracking-widest text-on-surface-variant">
+            Algorithmic Core
+          </span>
+        </div>
       </div>
 
-      {/* Nav */}
-      <nav className="flex-1 py-3 px-2 space-y-0.5 overflow-y-auto">
-        {navItems.map((item) => {
-          const isActive = pathname === item.href || (item.href !== '/' && pathname.startsWith(item.href))
+      {/* Main Nav */}
+      <nav className="flex-1 space-y-1">
+        {mainNavItems.map((item) => {
+          const active = isActive(item.href)
+          const Icon = item.icon
           return (
             <Link
               key={item.href}
               href={item.href}
-              className="relative flex items-center gap-3 px-3 py-2.5 rounded-xl text-sm transition-all duration-200 group"
-              style={{
-                background: isActive ? 'rgba(16, 185, 129, 0.08)' : 'transparent',
-                color: isActive ? '#10b981' : 'var(--text-secondary)',
-              }}
+              className={`flex items-center gap-3 px-3 py-2.5 transition-all duration-200 ${
+                active
+                  ? 'text-primary bg-surface-container-highest rounded-lg border-l-4 border-primary-container'
+                  : 'text-on-surface-variant hover:bg-surface-container-high rounded-lg border-l-4 border-transparent'
+              }`}
             >
-              {isActive && (
-                <motion.div
-                  layoutId="sidebar-active"
-                  className="absolute left-0 top-1/2 -translate-y-1/2 w-[3px] h-5 rounded-r-full"
-                  style={{ background: '#10b981', boxShadow: '0 0 8px rgba(16, 185, 129, 0.5)' }}
-                  transition={{ type: 'spring', stiffness: 500, damping: 30 }}
-                />
-              )}
-              <span className="text-lg w-6 text-center" style={{ filter: isActive ? 'drop-shadow(0 0 4px rgba(16, 185, 129, 0.5))' : 'none' }}>
-                {item.icon}
-              </span>
-              {isOpen && (
-                <span className="group-hover:text-[var(--text-primary)] transition-colors">
-                  {item.label}
-                </span>
-              )}
+              <Icon size={20} />
+              <span>{item.label}</span>
             </Link>
           )
         })}
       </nav>
 
-      {/* Connection status */}
-      <div className="px-4 py-4 border-t" style={{ borderColor: 'var(--void-border-subtle)' }}>
-        <div className="flex items-center gap-2">
+      {/* Bottom Nav */}
+      <div className="mt-auto space-y-1 pt-6 border-t border-outline-variant/10">
+        {bottomNavItems.map((item) => {
+          const active = isActive(item.href)
+          const Icon = item.icon
+          return (
+            <Link
+              key={item.href}
+              href={item.href}
+              className={`flex items-center gap-3 px-3 py-2.5 transition-all duration-200 ${
+                active
+                  ? 'text-primary bg-surface-container-highest rounded-lg border-l-4 border-primary-container'
+                  : 'text-on-surface-variant hover:bg-surface-container-high rounded-lg border-l-4 border-transparent'
+              }`}
+            >
+              <Icon size={20} />
+              <span>{item.label}</span>
+            </Link>
+          )
+        })}
+
+        {/* WebSocket Status */}
+        <div className="flex items-center gap-2 px-3 py-2.5 mt-2">
           <div className="relative">
             <div
-              className="w-2 h-2 rounded-full"
-              style={{
-                background: wsStatus === 'connected' ? '#10b981' : wsStatus === 'reconnecting' ? '#f59e0b' : '#f43f5e',
-                boxShadow: wsStatus === 'connected' ? '0 0 6px rgba(16, 185, 129, 0.6)' : 'none',
-              }}
+              className={`w-2 h-2 rounded-full ${
+                wsStatus === 'connected'
+                  ? 'bg-primary-container shadow-[0_0_8px_rgba(0,255,65,0.6)]'
+                  : wsStatus === 'reconnecting'
+                    ? 'bg-secondary animate-pulse'
+                    : 'bg-error'
+              }`}
             />
             {wsStatus === 'connected' && (
-              <div className="absolute inset-0 w-2 h-2 rounded-full animate-ping" style={{ background: 'rgba(16, 185, 129, 0.4)' }} />
+              <div className="absolute inset-0 w-2 h-2 rounded-full animate-ping bg-primary-container/40" />
             )}
           </div>
-          {isOpen && (
-            <span className="text-xs" style={{ color: 'var(--text-muted)' }}>
-              {wsStatus === 'connected' ? 'Live' : wsStatus === 'reconnecting' ? 'Reconnecting...' : 'Disconnected'}
-            </span>
-          )}
+          <span className="text-xs text-on-surface-variant">
+            {wsStatus === 'connected' ? 'Live' : wsStatus === 'reconnecting' ? 'Reconnecting...' : 'Disconnected'}
+          </span>
         </div>
       </div>
-    </motion.aside>
+    </aside>
   )
 }
