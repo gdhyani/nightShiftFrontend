@@ -6,7 +6,7 @@ import { useStoreSnapshot } from '@/hooks/useStoreSnapshot'
 import { livePricesAtom } from '@/stores/app'
 import { PriceCell } from './price-cell'
 
-const SYMBOLS = ['EUR_USD', 'GBP_USD', 'USD_JPY']
+const SYMBOLS = ['NSE_EQ|INE848E01016', 'NSE_EQ|INE040A01034', 'NSE_EQ|INE467B01029']
 
 function WatchlistRow({ symbol }: { symbol: string }) {
   const livePrices = useAtomValue(livePricesAtom)
@@ -24,16 +24,16 @@ function WatchlistRow({ symbol }: { symbol: string }) {
       onMouseEnter={(e) => e.currentTarget.style.background = 'var(--void-surface)'}
       onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
     >
-      <div className="font-medium">{symbol.replace('_', '/')}</div>
+      <div className="font-medium">{symbol.includes('|') ? symbol.split('|').pop() : symbol.replace('_', '/')}</div>
       <div><PriceCell price={price} /></div>
       <div className="text-sm font-[family-name:var(--font-mono)]" style={{ color: 'var(--text-secondary)' }}>
         {h1Data.rsi_14 != null ? Number(h1Data.rsi_14).toFixed(1) : '—'}
       </div>
       <div className="text-sm font-[family-name:var(--font-mono)]" style={{ color: 'var(--text-secondary)' }}>
-        {h1Data.sma_20 != null ? Number(h1Data.sma_20).toFixed(5) : '—'}
+        {h1Data.sma_20 != null ? Number(h1Data.sma_20).toFixed(2) : '—'}
       </div>
       <div className="text-sm font-[family-name:var(--font-mono)]" style={{ color: 'var(--text-secondary)' }}>
-        {h1Data.atr_14 != null ? Number(h1Data.atr_14).toFixed(5) : '—'}
+        {h1Data.atr_14 != null ? Number(h1Data.atr_14).toFixed(2) : '—'}
       </div>
     </Link>
   )
