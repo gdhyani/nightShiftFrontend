@@ -40,8 +40,8 @@ export function OrderForm() {
 
   return (
     <div>
-      <button onClick={() => setIsOpen(!isOpen)} className="px-4 py-2 rounded-xl text-sm font-medium transition-all"
-        style={{ background: 'linear-gradient(135deg, var(--accent-emerald), var(--accent-cyan))', boxShadow: '0 0 20px rgba(16,185,129,0.15)' }}>
+      <button onClick={() => setIsOpen(!isOpen)}
+        className="px-4 py-2 rounded-xl text-sm font-medium transition-all bg-primary-container text-on-primary hover:brightness-110">
         + New Order
       </button>
 
@@ -49,18 +49,19 @@ export function OrderForm() {
         {isOpen && (
           <motion.div initial={{ opacity: 0, height: 0, marginTop: 0 }} animate={{ opacity: 1, height: 'auto', marginTop: 16 }}
             exit={{ opacity: 0, height: 0, marginTop: 0 }} className="overflow-hidden">
-            <div className="rounded-2xl p-5 space-y-4" style={{ background: 'var(--void-surface)', border: '1px solid var(--void-border)' }}>
-              <div className="text-xs font-[family-name:var(--font-mono)]" style={{ color: 'var(--text-muted)' }}>{symbol}</div>
+            <div className="rounded-2xl p-5 space-y-4 bg-surface-container-low border border-outline-variant/20">
+              <div className="text-xs font-mono text-on-surface-variant">{symbol}</div>
 
               <div className="flex gap-2">
                 {(['BUY', 'SELL'] as const).map((s) => (
                   <button key={s} onClick={() => setSide(s)}
-                    className="flex-1 py-2 rounded-xl text-sm font-medium transition-all"
-                    style={{
-                      background: side === s ? (s === 'BUY' ? 'rgba(16,185,129,0.15)' : 'rgba(244,63,94,0.15)') : 'var(--void-elevated)',
-                      color: side === s ? (s === 'BUY' ? 'var(--accent-emerald)' : 'var(--accent-rose)') : 'var(--text-secondary)',
-                      border: `1px solid ${side === s ? (s === 'BUY' ? 'var(--accent-emerald)' : 'var(--accent-rose)') : 'var(--void-border)'}`,
-                    }}>
+                    className={`flex-1 py-2 rounded-xl text-sm font-medium transition-all border ${
+                      side === s
+                        ? s === 'BUY'
+                          ? 'bg-primary/20 text-primary border-primary-container/40'
+                          : 'bg-error/10 text-error border-error/40'
+                        : 'bg-surface-container-high text-on-surface-variant border-outline-variant/20'
+                    }`}>
                     {s}
                   </button>
                 ))}
@@ -68,58 +69,58 @@ export function OrderForm() {
 
               <div className="grid grid-cols-3 gap-3">
                 <div>
-                  <label className="text-xs block mb-1" style={{ color: 'var(--text-secondary)' }}>Quantity</label>
+                  <label className="text-xs block mb-1 text-on-surface-variant">Quantity</label>
                   <input type="number" value={qty} onChange={(e) => setQty(Number(e.target.value))} min={1}
-                    className="w-full px-3 py-2 rounded-xl text-sm font-[family-name:var(--font-mono)] outline-none"
-                    style={{ background: 'var(--void-elevated)', border: '1px solid var(--void-border)', color: 'var(--text-primary)' }} />
+                    className="w-full bg-surface-container-highest rounded-lg px-4 py-3 text-sm font-mono text-on-surface border border-outline-variant/20 focus:border-primary-container/40 outline-none" />
                 </div>
                 <div>
-                  <label className="text-xs block mb-1" style={{ color: 'var(--text-secondary)' }}>Type</label>
+                  <label className="text-xs block mb-1 text-on-surface-variant">Type</label>
                   <select value={orderType} onChange={(e) => setOrderType(e.target.value as 'MARKET' | 'LIMIT')}
-                    className="w-full px-3 py-2 rounded-xl text-sm outline-none"
-                    style={{ background: 'var(--void-elevated)', border: '1px solid var(--void-border)', color: 'var(--text-primary)' }}>
+                    className="w-full bg-surface-container-highest rounded-lg px-4 py-3 text-sm text-on-surface border border-outline-variant/20 focus:border-primary-container/40 outline-none">
                     <option value="MARKET">Market</option>
                     <option value="LIMIT">Limit</option>
                   </select>
                 </div>
                 <div>
-                  <label className="text-xs block mb-1" style={{ color: 'var(--text-secondary)' }}>Price</label>
+                  <label className="text-xs block mb-1 text-on-surface-variant">Price</label>
                   <input type="number" value={price} onChange={(e) => setPrice(Number(e.target.value))} step={0.05}
-                    className="w-full px-3 py-2 rounded-xl text-sm font-[family-name:var(--font-mono)] outline-none"
-                    style={{ background: 'var(--void-elevated)', border: '1px solid var(--void-border)', color: 'var(--text-primary)' }} />
+                    className="w-full bg-surface-container-highest rounded-lg px-4 py-3 text-sm font-mono text-on-surface border border-outline-variant/20 focus:border-primary-container/40 outline-none" />
                 </div>
               </div>
 
               {charges && (
-                <div className="rounded-xl p-3" style={{ background: 'var(--void-elevated)', border: '1px solid var(--void-border)' }}>
-                  <div className="text-xs mb-2" style={{ color: 'var(--text-secondary)' }}>Estimated Charges</div>
-                  <div className="grid grid-cols-4 gap-2 text-xs font-[family-name:var(--font-mono)]">
-                    <div><span style={{ color: 'var(--text-muted)' }}>Brokerage:</span> <span style={{ color: 'var(--text-primary)' }}>{charges.brokerage}</span></div>
-                    <div><span style={{ color: 'var(--text-muted)' }}>STT:</span> <span style={{ color: 'var(--text-primary)' }}>{charges.stt}</span></div>
-                    <div><span style={{ color: 'var(--text-muted)' }}>GST:</span> <span style={{ color: 'var(--text-primary)' }}>{charges.gst}</span></div>
-                    <div><span style={{ color: 'var(--accent-amber)' }}>Total: {charges.total_charges}</span></div>
+                <div className="bg-surface-container-lowest rounded-xl p-4 font-mono">
+                  <div className="text-xs mb-2 text-on-surface-variant">Estimated Charges</div>
+                  <div className="grid grid-cols-4 gap-2 text-xs">
+                    <div><span className="text-on-surface-variant">Brokerage:</span> <span className="text-on-surface">{charges.brokerage}</span></div>
+                    <div><span className="text-on-surface-variant">STT:</span> <span className="text-on-surface">{charges.stt}</span></div>
+                    <div><span className="text-on-surface-variant">GST:</span> <span className="text-on-surface">{charges.gst}</span></div>
+                    <div><span className="text-secondary">Total: {charges.total_charges}</span></div>
                   </div>
                 </div>
               )}
 
               {result && (
-                <div className="text-xs rounded-xl p-3" style={{ background: 'rgba(16,185,129,0.15)', color: 'var(--accent-emerald)' }}>
+                <div className="text-xs rounded-xl p-3 bg-primary/10 text-primary-container">
                   {result}
                 </div>
               )}
 
               <div className="flex gap-3">
-                <button onClick={handleCalculateCharges} className="px-4 py-2 rounded-xl text-sm transition-all"
-                  style={{ background: 'var(--void-elevated)', color: 'var(--text-secondary)', border: '1px solid var(--void-border)' }}>
+                <button onClick={handleCalculateCharges}
+                  className="px-4 py-2 rounded-xl text-sm transition-all bg-surface-container-high text-on-surface-variant border border-outline-variant/20 hover:bg-surface-container-highest">
                   Calculate Charges
                 </button>
                 <button onClick={handleSubmit} disabled={placeMutation.isPending}
-                  className="px-5 py-2 rounded-xl text-sm font-medium transition-all disabled:opacity-40"
-                  style={{ background: side === 'BUY' ? 'var(--accent-emerald)' : 'var(--accent-rose)', boxShadow: `0 0 12px ${side === 'BUY' ? 'rgba(16,185,129,0.15)' : 'rgba(244,63,94,0.15)'}` }}>
+                  className={`px-5 py-2 rounded-xl text-sm font-medium transition-all disabled:opacity-40 ${
+                    side === 'BUY'
+                      ? 'bg-primary-container text-on-primary'
+                      : 'bg-error text-on-error'
+                  }`}>
                   {placeMutation.isPending ? 'Placing...' : `Place ${side} Order`}
                 </button>
-                <button onClick={() => setIsOpen(false)} className="px-4 py-2 rounded-xl text-sm"
-                  style={{ color: 'var(--text-secondary)', background: 'var(--void-elevated)' }}>
+                <button onClick={() => setIsOpen(false)}
+                  className="px-4 py-2 rounded-xl text-sm text-on-surface-variant bg-surface-container-high hover:bg-surface-container-highest">
                   Cancel
                 </button>
               </div>
