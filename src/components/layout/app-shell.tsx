@@ -1,27 +1,15 @@
 'use client'
 
-import { useAtom } from 'jotai'
 import { motion } from 'framer-motion'
 
-import { sidebarOpenAtom } from '@/stores/app'
-
-import { Header } from './header'
 import { Sidebar } from './sidebar'
 
 export function AppShell({ children }: { children: React.ReactNode }) {
-  const [isOpen] = useAtom(sidebarOpenAtom)
-
   return (
-    <div className="min-h-screen" style={{ background: 'var(--void)' }}>
+    <div className="min-h-screen bg-background">
       <Sidebar />
-      <motion.div
-        initial={false}
-        animate={{ marginLeft: isOpen ? 240 : 68 }}
-        transition={{ type: 'spring', stiffness: 300, damping: 30 }}
-        className="flex flex-col min-h-screen"
-      >
-        <Header />
-        <main className="flex-1 p-6">
+      <div className="ml-64 flex flex-col min-h-screen">
+        <main className="flex-1 p-6 lg:p-8">
           <motion.div
             initial={{ opacity: 0, y: 8 }}
             animate={{ opacity: 1, y: 0 }}
@@ -30,7 +18,7 @@ export function AppShell({ children }: { children: React.ReactNode }) {
             {children}
           </motion.div>
         </main>
-      </motion.div>
+      </div>
     </div>
   )
 }
