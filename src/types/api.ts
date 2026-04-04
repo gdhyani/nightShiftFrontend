@@ -98,3 +98,82 @@ export interface Position {
   status: string
   opened_at: string
 }
+
+// Upstox Trading Types
+export interface TradingConfig {
+  daily: 'active' | 'expired' | 'missing'
+  sandbox: 'active' | 'expired' | 'missing'
+  mode: 'paper' | 'live'
+  client_id_set: boolean
+}
+
+export interface InstrumentResult {
+  id: number
+  instrument_key: string
+  symbol: string
+  name: string
+  exchange: string
+  segment: string
+  isin: string | null
+  lot_size: number
+  tick_size: number
+  instrument_type: string | null
+  expiry: string | null
+  strike_price: number | null
+  option_type: string | null
+  updated_at: string
+}
+
+export interface PlaceOrderRequest {
+  symbol: string
+  side: 'BUY' | 'SELL'
+  qty: number
+  order_type: 'MARKET' | 'LIMIT'
+  price: number
+  product: 'D' | 'I'
+}
+
+export interface PlaceOrderResponse {
+  order_id: number
+  status: string
+  symbol: string
+  side: string
+  qty: number
+  fill_price: number
+  charges: ChargeBreakdown
+  source: string
+}
+
+export interface ChargeBreakdown {
+  brokerage: number
+  stt: number
+  exchange_charges: number
+  gst: number
+  stamp_duty: number
+  sebi_fee: number
+  total_charges: number
+  net_amount: number
+}
+
+export interface PortfolioHolding {
+  symbol: string
+  quantity: number
+  average_price: number
+  pnl: number
+}
+
+export interface PortfolioPosition {
+  symbol: string
+  direction: string
+  entry_price: number
+  current_price: number
+  quantity: number
+  unrealized_pnl: number
+}
+
+export interface PortfolioMargins {
+  balance: number
+  equity: number
+  margin_used: number
+  available: number
+}
