@@ -23,16 +23,16 @@ export default function DashboardPage() {
         className="flex items-end justify-between"
       >
         <div>
-          <h1 className="text-3xl font-bold tracking-tight" style={{ color: 'var(--text-primary)' }}>
+          <h1 className="text-3xl font-headline font-bold uppercase tracking-tight text-on-surface">
             Dashboard
           </h1>
-          <p className="text-sm mt-1" style={{ color: 'var(--text-muted)' }}>
+          <p className="text-sm mt-1 text-on-surface-variant font-light">
             Live overview of trading performance
           </p>
         </div>
-        <div className="flex items-center gap-2 px-3 py-1.5 rounded-xl" style={{ background: 'var(--void-surface)', border: '1px solid var(--void-border)' }}>
-          <div className="w-1.5 h-1.5 rounded-full" style={{ background: 'var(--accent-emerald)', boxShadow: '0 0 6px var(--accent-emerald-glow)' }} />
-          <span className="text-xs font-[family-name:var(--font-mono)]" style={{ color: 'var(--text-secondary)' }}>
+        <div className="flex items-center gap-2 px-3 py-1.5 rounded-full bg-primary/10">
+          <div className="w-1.5 h-1.5 rounded-full bg-primary-container shadow-[0_0_6px_rgba(0,255,65,0.4)]" />
+          <span className="text-xs font-mono text-primary">
             {activeStrategies.length} active
           </span>
         </div>
@@ -46,7 +46,7 @@ export default function DashboardPage() {
         transition={{ delay: 0.3 }}
       >
         <div className="flex items-center justify-between mb-3">
-          <h2 className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>Equity Curve</h2>
+          <h2 className="text-[10px] uppercase tracking-[0.2em] font-mono text-on-surface-variant">Equity Curve</h2>
         </div>
         <EquityCurve />
       </motion.div>
@@ -56,27 +56,25 @@ export default function DashboardPage() {
           initial={{ opacity: 0, x: -12 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.4 }}
-          className="rounded-2xl p-5"
-          style={{ background: 'var(--void-surface)', border: '1px solid var(--void-border)' }}
+          className="bg-surface-container-lowest rounded-xl p-5 border border-outline-variant/10"
         >
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>Active Strategies</h2>
-            <Link href="/strategies" className="text-xs transition-colors hover:opacity-80" style={{ color: 'var(--accent-cyan)' }}>View all →</Link>
+            <h2 className="text-[10px] uppercase tracking-[0.2em] font-mono text-on-surface-variant">Active Strategies</h2>
+            <Link href="/strategies" className="text-xs text-secondary hover:text-secondary-container transition-colors">View all &rarr;</Link>
           </div>
           {activeStrategies.length === 0 ? (
-            <div className="text-sm py-4 text-center" style={{ color: 'var(--text-muted)' }}>No active strategies</div>
+            <div className="text-sm py-4 text-center text-on-surface-variant">No active strategies</div>
           ) : (
             <div className="space-y-2">
               {activeStrategies.map((s) => (
                 <Link key={s.id} href={`/strategies/${s.id}`}
-                  className="flex items-center justify-between p-3 rounded-xl transition-all duration-200 hover:translate-x-1"
-                  style={{ background: 'var(--void-elevated)', border: '1px solid var(--void-border-subtle)' }}
+                  className="flex items-center justify-between p-4 bg-surface-container-lowest rounded-xl transition-all duration-200 hover:bg-surface-container-low hover:translate-x-1 border border-outline-variant/10"
                 >
                   <div>
-                    <div className="text-sm font-medium" style={{ color: 'var(--text-primary)' }}>{s.name}</div>
-                    <div className="text-xs font-[family-name:var(--font-mono)] mt-0.5" style={{ color: 'var(--text-muted)' }}>{s.symbols.replace(/,/g, ' · ')}</div>
+                    <div className="text-sm font-medium text-on-surface">{s.name}</div>
+                    <div className="text-xs font-mono mt-0.5 text-on-surface-variant">{s.symbols.replace(/,/g, ' · ')}</div>
                   </div>
-                  <span className="text-xs px-2.5 py-1 rounded-lg" style={{ background: 'var(--accent-emerald-glow)', color: 'var(--accent-emerald)' }}>Running</span>
+                  <span className="bg-primary/20 text-primary px-2 py-0.5 rounded-full text-[10px] font-mono uppercase tracking-widest">Running</span>
                 </Link>
               ))}
             </div>
@@ -87,39 +85,35 @@ export default function DashboardPage() {
           initial={{ opacity: 0, x: 12 }}
           animate={{ opacity: 1, x: 0 }}
           transition={{ delay: 0.4 }}
-          className="rounded-2xl p-5"
-          style={{ background: 'var(--void-surface)', border: '1px solid var(--void-border)' }}
+          className="bg-surface-container-lowest rounded-xl p-5 border border-outline-variant/10"
         >
           <div className="flex items-center justify-between mb-4">
-            <h2 className="text-sm font-medium" style={{ color: 'var(--text-secondary)' }}>Recent Trades</h2>
-            <Link href="/trades" className="text-xs transition-colors hover:opacity-80" style={{ color: 'var(--accent-cyan)' }}>View all →</Link>
+            <h2 className="text-[10px] uppercase tracking-[0.2em] font-mono text-on-surface-variant">Recent Trades</h2>
+            <Link href="/trades" className="text-xs text-secondary hover:text-secondary-container transition-colors">View all &rarr;</Link>
           </div>
           {recentTrades.length === 0 ? (
-            <div className="text-sm py-4 text-center" style={{ color: 'var(--text-muted)' }}>No trades yet</div>
+            <div className="text-sm py-4 text-center text-on-surface-variant">No trades yet</div>
           ) : (
             <div className="space-y-2">
               {recentTrades.map((t) => (
                 <Link key={t.id} href={`/trades/${t.id}`}
-                  className="flex items-center justify-between p-3 rounded-xl transition-all duration-200 hover:translate-x-1"
-                  style={{ background: 'var(--void-elevated)', border: '1px solid var(--void-border-subtle)' }}
+                  className="flex items-center justify-between p-4 bg-surface-container-lowest rounded-xl transition-all duration-200 hover:bg-surface-container-low hover:translate-x-1 border border-outline-variant/10"
                 >
                   <div className="flex items-center gap-3">
-                    <span className="text-xs font-bold font-[family-name:var(--font-mono)]"
-                      style={{ color: t.direction === 'BUY' ? 'var(--accent-emerald)' : 'var(--accent-rose)' }}>
+                    <span className={`text-xs font-bold font-mono ${t.direction === 'BUY' ? 'text-primary-container' : 'text-error'}`}>
                       {t.direction}
                     </span>
-                    <span className="text-sm" style={{ color: 'var(--text-primary)' }}>{t.symbol.replace('_', '/')}</span>
+                    <span className="text-sm text-on-surface">{t.symbol.replace('_', '/')}</span>
                   </div>
                   <div className="flex items-center gap-3">
-                    <span className="text-sm font-[family-name:var(--font-mono)]"
-                      style={{ color: (t.pnl ?? 0) >= 0 ? 'var(--accent-emerald)' : 'var(--accent-rose)' }}>
+                    <span className={`text-sm font-mono tabular-nums ${(t.pnl ?? 0) >= 0 ? 'text-primary-container' : 'text-error'}`}>
                       {t.pnl != null ? `${t.pnl >= 0 ? '+' : ''}${t.pnl.toFixed(5)}` : '—'}
                     </span>
-                    <span className="text-xs px-2 py-0.5 rounded-lg"
-                      style={{
-                        background: t.status === 'open' ? 'var(--accent-cyan-glow)' : 'rgba(26, 26, 46, 0.5)',
-                        color: t.status === 'open' ? 'var(--accent-cyan)' : 'var(--text-muted)',
-                      }}>
+                    <span className={`text-xs px-2 py-0.5 rounded-full font-mono uppercase ${
+                      t.status === 'open'
+                        ? 'bg-secondary/20 text-secondary'
+                        : 'bg-surface-container-high text-on-surface-variant'
+                    }`}>
                       {t.status}
                     </span>
                   </div>
